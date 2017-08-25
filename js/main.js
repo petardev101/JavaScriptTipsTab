@@ -24,7 +24,7 @@ var tipsList = [
 ];
 
 // Tip Limit counter
-
+let tipLimit = 3
 
 // Generate a number
 generateNumber = () => {
@@ -38,10 +38,12 @@ generateNumber = () => {
 // 3. Show the tip
 generateTip = () => {
 	console.log('generateTip func')
-	const tip = tipsList[generateNumber()]
-	const tipElement = document.querySelector('.js-tip')
+	let tip = tipsList[generateNumber()]
+	let tipElement = document.querySelector('.js-tip')
+	let tipLimitCount = document.querySelector('.tip-limit-count')
 
 	tipElement.innerHTML = tip
+	tipLimitCount.innerHTML = tipLimit
 }
 
 // Tip button click
@@ -51,6 +53,23 @@ generateTip = () => {
 // 3a. Subtract 1 from the tipLimit
 // 3b. If the tipLimit is still above or equal to 0, generate a new tip
 // 3c. If not, change the button text and look
+onTipButtonClick = () => {
+  let tipButton = document.querySelector('.tip-button')
+  tipButton.addEventListener('click', () => {
+    console.log('tip button')
+		tipLimit = tipLimit - 1;
+    if (tipLimit >= 0) {
+      generateTip();
 
+      if (tipLimit === 0) {
+        tipButton.innerHTML = 'See you in another tab!';
+        tipButton.classList.add('disabled');
+      }
+    }
+  })
+}
+
+onTipButtonClick();
 
 // Get the first tip
+generateTip()
